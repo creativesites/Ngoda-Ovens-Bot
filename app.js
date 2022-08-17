@@ -141,7 +141,7 @@ ON_DEATH(async function() {
                               //console.log(txt)
     
                           })
-                          .catch((err1) => {
+                          .catch(async(err1) => {
                               console.log('failed to send img')
                               await client.sendText(msgNum, `*${txt}*\n${txt1}\n\n${txt2}`)
                           })
@@ -173,6 +173,25 @@ ON_DEATH(async function() {
     
     await client.onMessage(async (message)=>{
         console.log(message.type)
+        let nnb = message.body
+        let nnv = nnb.toLowerCase()
+        if(nnv.includes('product')){
+            let img = 'https://res.cloudinary.com/practicaldev/image/fetch/s--AInzu_FH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sc5u2yfjk3c842t9s8zg.png'
+            imageDataURI
+            .encodeFromURL(img)
+            .then(async(resp2) => {
+                await client.sendImageWithProduct(message.from, resp2, 'sample product', '260760411660@c.us', '1234')
+
+            })
+            .catch(async(err1) => {
+                console.log('failed to send img')
+                await client.sendText(message.from, `error happened`)
+            })
+            
+        }
+        if(nnv.includes('address') ){
+            await client.sendLocation(message.from, '-17.832820','31.052120', `Merchant House`)
+        }
         if (message.mimetype){
             console.log('multimedia msg. Doing nothing')
         }else{
